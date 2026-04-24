@@ -14,6 +14,7 @@ This is the first tree-first Obsidian plugin for the md-first `graph-task` direc
 - shows compact badges for status, phase type, result count, and validation issues
 - lets you click an item to open the canonical markdown file
 - includes a refresh command / button
+- exports semantic Obsidian canvas views for active or all graph-task projects
 - shows a validation issue panel instead of failing silently when structure is broken
 
 ## Current scope
@@ -24,12 +25,13 @@ Included:
 - inspect the tree in Obsidian
 - open canonical markdown files
 - refresh the parsed state
+- export deterministic step / phase / node canvas views
 - surface validation issues
 
 Not included yet:
 - create or edit entities from the plugin
 - lock / lease handling
-- graph rendering
+- fully live graph workspace with rich filters
 - conflict resolution
 - rich detail pane
 
@@ -42,11 +44,12 @@ npm run typecheck
 npm run build
 ```
 
-## Smoke test against the sample project
+## Smoke tests
 From this plugin folder:
 
 ```bash
 node scripts/smoke-parse.mjs
+npm run smoke:canvas
 ```
 
 Expected output includes:
@@ -55,7 +58,8 @@ Expected output includes:
 - `phase: phase-diverge-1`
 - `node: node-compare-layout`
 - `result: result-0001`
-- final line: `OK: projects=1 steps=1 phases=1 nodes=1 results=1`
+- canvas file paths under `vault/graph-task-demo/project-canvas-workgraph/canvases/`
+- final parse line: `OK: projects=1 steps=1 phases=1 nodes=1 results=1`
 
 ## Load into Obsidian
 ### Option A — use the sample vault directly
@@ -77,6 +81,18 @@ Expected output includes:
 
 ### Option B — use your real vault
 If your real vault contains md-first graph-task project folders with the same structure, install the plugin the same way and open the explorer.
+
+## Export canvas views in Obsidian
+After enabling the plugin, you can run either of these commands:
+- `Graph-Task Explorer: Export canvas views for active project`
+- `Graph-Task Explorer: Export canvas views for all projects`
+
+For each project, the plugin writes three derived canvas files:
+- `<project-id>-step-view.canvas`
+- `<project-id>-phase-view.canvas`
+- `<project-id>-node-view.canvas`
+
+These are derived visualization artifacts. Markdown remains canonical.
 
 ## Expected first visual result in Obsidian
 If you load `examples/md-first-minimal/`, the plugin should show a tree roughly like:
@@ -104,5 +120,6 @@ The plugin currently flags issues such as:
 - detail pane for selected entity
 - create entity commands
 - status mutation commands
+- live filterable work-graph view beyond export-only canvases
 - validator shared with CLI/runtime
 - lightweight lock / lease awareness

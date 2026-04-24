@@ -1,6 +1,6 @@
 {
   "name": "graph-task-obsidian",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Obsidian plugin MVP for the md-first graph-task protocol.",
   "main": "main.js",
   "scripts": {
