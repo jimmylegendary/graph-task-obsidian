@@ -1,5 +1,7 @@
 import { Plugin, WorkspaceLeaf, Notice } from 'obsidian';
 import { GraphTaskView, VIEW_TYPE_GRAPH_TASK } from './view';
+import { exportActiveProjectCanvases, exportAllProjectCanvases } from './canvas-export';
+import { scanProjects } from './parser';
 
 export default class GraphTaskPlugin extends Plugin {
   async onload(): Promise<void> {
@@ -24,6 +26,24 @@ export default class GraphTaskPlugin extends Plugin {
       id: 'refresh',
       name: 'Refresh projects',
       callback: () => this.refreshAllViews(),
+    });
+
+    this.addCommand({
+      id: 'export-active-project-canvases',
+      name: 'Export canvas views for active project',
+      callback: async () => {
+        const { projects } = scanProjects(this.app);
+        await exportActiveProjectCanvases(this.app, projects);
+      },
+    });
+
+    this.addCommand({
+      id: 'export-all-project-canvases',
+      name: 'Export canvas views for all projects',
+      callback: async () => {
+        const { projects } = scanProjects(this.app);
+        await exportAllProjectCanvases(this.app, projects);
+      },
     });
 
     // Refresh when frontmatter changes so the tree stays in sync.

@@ -1,6 +1,7 @@
 import { ItemView, WorkspaceLeaf, setIcon, TFile } from 'obsidian';
 import type GraphTaskPlugin from './main';
 import { scanProjects, Entity, collectIssues } from './parser';
+import { exportAllProjectCanvases, exportActiveProjectCanvases } from './canvas-export';
 
 export const VIEW_TYPE_GRAPH_TASK = 'graph-task-explorer';
 
@@ -62,6 +63,9 @@ export class GraphTaskView extends ItemView {
       this.render();
     });
 
+    const exportActiveBtn = toolbar.createEl('button', { cls: 'graph-task-btn', text: 'Export active canvas' });
+    const exportAllBtn = toolbar.createEl('button', { cls: 'graph-task-btn', text: 'Export all canvases' });
+
     const collapseBtn = toolbar.createEl('button', { cls: 'graph-task-btn', text: 'Collapse all' });
 
     // Warning banner (per obsidian-plugin-mvp-spec concurrency note)
@@ -70,6 +74,13 @@ export class GraphTaskView extends ItemView {
 
     // Scan vault
     const { projects, globalIssues } = scanProjects(this.app);
+
+    exportActiveBtn.addEventListener('click', () => {
+      void exportActiveProjectCanvases(this.app, projects);
+    });
+    exportAllBtn.addEventListener('click', () => {
+      void exportAllProjectCanvases(this.app, projects);
+    });
 
     if (projects.length === 0) {
       const empty = container.createEl('div', { cls: 'graph-task-empty' });

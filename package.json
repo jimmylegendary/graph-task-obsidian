@@ -7,7 +7,8 @@
     "build": "node esbuild.config.mjs production",
     "dev": "node esbuild.config.mjs",
     "typecheck": "tsc --noEmit",
-    "smoke": "node scripts/smoke-parse.mjs"
+    "smoke": "node scripts/smoke-parse.mjs",
+    "smoke:canvas": "node scripts/export-fs-canvas.mjs /home/jimmy/.openclaw/workspace/vault/graph-task-demo/project-canvas-workgraph"
   },
   "keywords": [
     "obsidian",
