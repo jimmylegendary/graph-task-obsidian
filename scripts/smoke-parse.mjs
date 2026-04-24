@@ -6,7 +6,7 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, basename, relative, dirname } from 'node:path';
 
-const EXAMPLE_ROOT = new URL('../../../examples/md-first-minimal', import.meta.url).pathname;
+const EXAMPLE_ROOT = new URL('../examples/md-first-minimal', import.meta.url).pathname;
 
 function parseFrontmatter(content) {
   if (!content.startsWith('---\n')) return null;
